@@ -1,11 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import theme from './theme';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import SignIn from './SignIn';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SignIn />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
