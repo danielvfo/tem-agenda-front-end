@@ -2,15 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './theme';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <SignIn />
+      <SignUp />
     </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root'),

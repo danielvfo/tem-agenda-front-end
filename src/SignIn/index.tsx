@@ -1,31 +1,23 @@
 import React from 'react';
 import {
-  Avatar,
+  RadioGroup,
   Button,
-  CssBaseline,
   TextField,
   FormControlLabel,
-  Checkbox,
   Link,
   Grid,
-  Box,
-  Typography,
-  Container,
   makeStyles,
+  Typography,
+  Radio,
+  Container,
 } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useForm, Controller } from 'react-hook-form';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      Procurando área de acesso para seu negócio?{' '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Clique aqui.
-      </Link>{' '}
-      Tem Agenda {new Date().getFullYear()}.
-    </Typography>
-  );
-}
+type Inputs = {
+  email: string;
+  password: string;
+  userType: string;
+};
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -34,14 +26,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%',
-    marginTop: theme.spacing(1),
-  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -49,43 +33,56 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn: React.FC = () => {
   const classes = useStyles();
+  const { register, handleSubmit, control } = useForm<Inputs>();
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Acessar sua conta
-        </Typography>
-        <form className={classes.form} noValidate>
+      <form onSubmit={handleSubmit(data => console.log(data))}>
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h3">
+            Login
+          </Typography>
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             id="email"
             label="Email"
-            name="email"
+            required
+            {...register('email', { required: true })}
             autoComplete="email"
             autoFocus
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
-            name="password"
+            required
+            {...register('password', { required: true })}
             label="Senha"
             type="password"
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Lembrar"
+          <Controller
+            render={({ field }) => (
+              <RadioGroup row aria-label="userType" {...field} name="userType">
+                <FormControlLabel
+                  value="user"
+                  control={<Radio />}
+                  label="Pessoa"
+                />
+                <FormControlLabel
+                  value="business"
+                  control={<Radio />}
+                  label="Negócio"
+                />
+              </RadioGroup>
+            )}
+            defaultValue="user"
+            rules={{ required: true }}
+            name="userType"
+            control={control}
           />
           <Button
             type="submit"
@@ -102,17 +99,17 @@ const SignIn: React.FC = () => {
                 Esqueceu a senha?
               </Link>
             </Grid>
+          </Grid>
+          <br />
+          <Grid container>
             <Grid item>
               <Link href="http://#" variant="body2">
                 Não tem uma conta? Faça o cadastro
               </Link>
             </Grid>
           </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
+        </div>
+      </form>
     </Container>
   );
 };
