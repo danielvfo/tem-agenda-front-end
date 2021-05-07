@@ -1,24 +1,22 @@
 import React from 'react';
-import { Container, Typography, Box, Link } from '@material-ui/core';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import theme from './theme';
+import SignUp from './SignUp';
+import { AuthProvider } from './context/AuthContext';
+
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
-    <>
-      <Container maxWidth="sm">
-        <Box my={4}>
-          <Typography variant="h1" align="center" gutterBottom>
-            Tem Agenda
-          </Typography>
-          <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-              Tem Agenda
-            </Link>{' '}
-            {new Date().getFullYear()}.
-          </Typography>
-        </Box>
-      </Container>
-    </>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <SignUp />
+        </QueryClientProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 

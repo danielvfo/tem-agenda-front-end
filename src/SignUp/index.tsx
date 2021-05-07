@@ -10,6 +10,8 @@ import {
   Container,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import api from '../services/api';
 
 type Inputs = {
   userType: string;
@@ -44,9 +46,21 @@ const SignUp: React.FC = () => {
   const [businessUserType, setBusinessUserType] = useState(false);
   const { register, handleSubmit, control } = useForm<Inputs>();
 
+  const { mutate } = useMutation(
+    (data: Inputs) =>
+      api.post('/user', {
+        name: data.name,
+        userName: data.userName,
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+      }),
+    { onSuccess: response => console.log(response) },
+  );
+
   return (
     <Container component="main" maxWidth="xs">
-      <form onSubmit={handleSubmit(data => console.log(data))}>
+      <form onSubmit={handleSubmit(data => mutate(data))}>
         <div className={classes.paper}>
           <Typography component="h1" variant="h3">
             Cadastro

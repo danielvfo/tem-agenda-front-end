@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   RadioGroup,
   Button,
@@ -12,6 +12,7 @@ import {
   Container,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
+import { AuthContext } from '../context/AuthContext';
 
 type Inputs = {
   email: string;
@@ -34,10 +35,18 @@ const useStyles = makeStyles(theme => ({
 const SignIn: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit, control } = useForm<Inputs>();
+  const { signIn } = useContext(AuthContext);
 
   return (
     <Container component="main" maxWidth="xs">
-      <form onSubmit={handleSubmit(data => console.log(data))}>
+      <form
+        onSubmit={handleSubmit(async data =>
+          signIn({
+            email: data.email,
+            password: data.password,
+          }),
+        )}
+      >
         <div className={classes.paper}>
           <Typography component="h1" variant="h3">
             Login
