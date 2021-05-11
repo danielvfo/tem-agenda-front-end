@@ -2,8 +2,8 @@ import React from 'react';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import theme from './theme';
-import SignUp from './SignUp';
-import { AuthProvider } from './context/AuthContext';
+import SignIn from './SignIn';
+import { AuthProvider } from './hooks/AuthContext';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +13,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <AuthProvider>
         <QueryClientProvider client={queryClient}>
-          <SignUp />
+          <SignIn />
         </QueryClientProvider>
       </AuthProvider>
     </ThemeProvider>

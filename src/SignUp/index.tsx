@@ -47,14 +47,33 @@ const SignUp: React.FC = () => {
   const { register, handleSubmit, control } = useForm<Inputs>();
 
   const { mutate } = useMutation(
-    (data: Inputs) =>
-      api.post('/user', {
+    (data: Inputs) => {
+      console.log(data.userType);
+
+      if (data.userType === 'user') {
+        return api.post('/user', {
+          name: data.name,
+          userName: data.userName,
+          email: data.email,
+          password: data.password,
+          phone: data.phone,
+        });
+      }
+      return api.post('/business', {
         name: data.name,
         userName: data.userName,
         email: data.email,
         password: data.password,
         phone: data.phone,
-      }),
+        description: data.description,
+        type: data.type,
+        address: data.address,
+        whatsapp: data.whatsapp,
+        instagram: data.instagram,
+        facebook: data.facebook,
+        twitter: data.twitter,
+      });
+    },
     { onSuccess: response => console.log(response) },
   );
 
