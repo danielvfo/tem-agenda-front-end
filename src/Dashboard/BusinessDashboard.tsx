@@ -179,7 +179,7 @@ const Dashboard: React.FC = () => {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper} />
-              <h1>Usuário</h1>
+              <h1>Negócio</h1>
             </Grid>
           </Grid>
           <Box pt={4}>
