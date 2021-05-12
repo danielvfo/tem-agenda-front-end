@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import api from '../services/api';
+import api from '../../services/api';
 
 type Inputs = {
   userType: string;

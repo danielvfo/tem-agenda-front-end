@@ -12,7 +12,7 @@ import {
   Container,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
-import { useAuth } from '../hooks/AuthContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 type Inputs = {
   email: string;
