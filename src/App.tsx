@@ -10,16 +10,16 @@ const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <AuthProvider>
-          <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
             <Routes />
-          </QueryClientProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 

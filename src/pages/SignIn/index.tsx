@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   RadioGroup,
   Button,
@@ -12,6 +12,7 @@ import {
   Container,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
 type Inputs = {
@@ -35,7 +36,19 @@ const useStyles = makeStyles(theme => ({
 const SignIn: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit, control } = useForm<Inputs>();
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user) {
+      if (user.userType === 'user') {
+        history.push({ pathname: '/user-dashboard' });
+      }
+      if (user.userType === 'business') {
+        history.push({ pathname: '/business-dashboard' });
+      }
+    }
+  });
 
   return (
     <Container component="main" maxWidth="xs">
@@ -113,8 +126,8 @@ const SignIn: React.FC = () => {
           <br />
           <Grid container>
             <Grid item>
-              <Link href="http://#" variant="body2">
-                Não tem uma conta? Faça o cadastro
+              <Link component={RouterLink} to="/signup">
+                Não tem uma conta? Faça o cadastro.
               </Link>
             </Grid>
           </Grid>

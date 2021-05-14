@@ -53,7 +53,6 @@ const AuthProvider: React.FC = ({
 
   const signIn = useCallback(async ({ email, password, type }) => {
     let response: AxiosResponse;
-
     if (type === 'user') {
       response = await api.post('user/session', {
         email,

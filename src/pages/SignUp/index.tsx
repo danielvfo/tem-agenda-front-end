@@ -8,9 +8,12 @@ import {
   Typography,
   Radio,
   Container,
+  Grid,
+  Link,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { Link as RouterLink } from 'react-router-dom';
 import api from '../../services/api';
 
 type Inputs = {
@@ -257,6 +260,13 @@ const SignUp: React.FC = () => {
           >
             Criar conta
           </Button>
+          <Grid container>
+            <Grid item>
+              <Link component={RouterLink} to="/">
+                Já tem uma conta? Faça o login.
+              </Link>
+            </Grid>
+          </Grid>
         </div>
       </form>
     </Container>
