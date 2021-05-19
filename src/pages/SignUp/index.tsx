@@ -12,8 +12,10 @@ import {
   Link,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation } from 'react-query';
 import { Link as RouterLink } from 'react-router-dom';
+import * as yup from 'yup';
 import api from '../../services/api';
 
 type Inputs = {
@@ -32,6 +34,31 @@ type Inputs = {
   password: string;
 };
 
+const userSchema = yup.object().shape({
+  userType: yup.string().required(),
+  name: yup.string().required(),
+  userName: yup.string().required(),
+  phone: yup.number().positive().integer().required(),
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+});
+
+const businessSchema = yup.object().shape({
+  userType: yup.string().required(),
+  name: yup.string().required(),
+  userName: yup.string().required(),
+  phone: yup.number().positive().integer().required(),
+  email: yup.string().email().required(),
+  password: yup.string().required(),
+  description: yup.string().required(),
+  type: yup.string().required(),
+  address: yup.string(),
+  whatsapp: yup.number().positive().integer(),
+  instagram: yup.string().url(),
+  facebook: yup.string().url(),
+  twitter: yup.string().url(),
+});
+
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -47,7 +74,15 @@ const useStyles = makeStyles(theme => ({
 const SignUp: React.FC = () => {
   const classes = useStyles();
   const [businessUserType, setBusinessUserType] = useState(false);
-  const { register, handleSubmit, control } = useForm<Inputs>();
+  const [schema, setSchema] = useState(userSchema);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<Inputs>({
+    resolver: yupResolver(schema),
+  });
 
   const { mutate } = useMutation(
     (data: Inputs) => {
@@ -94,13 +129,19 @@ const SignUp: React.FC = () => {
                   value="user"
                   control={<Radio />}
                   label="Para você"
-                  onClick={() => setBusinessUserType(false)}
+                  onClick={() => {
+                    setBusinessUserType(false);
+                    setSchema(userSchema);
+                  }}
                 />
                 <FormControlLabel
                   value="business"
                   control={<Radio />}
                   label="Para seu negócio"
-                  onClick={() => setBusinessUserType(true)}
+                  onClick={() => {
+                    setBusinessUserType(true);
+                    setSchema(businessSchema);
+                  }}
                 />
               </RadioGroup>
             )}
@@ -109,147 +150,154 @@ const SignUp: React.FC = () => {
             name="userType"
             control={control}
           />
-
-          <div>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="name"
-              label={businessUserType ? 'Nome do negócio' : 'Nome completo'}
-              required
-              {...register('name', { required: true })}
-              autoComplete="name"
-              autoFocus
-            />
-
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="userName"
-              label="Nome de usuário"
-              required
-              {...register('userName', { required: true })}
-              autoComplete="userName"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="phone"
-              label="Celular"
-              required
-              {...register('phone', { required: true })}
-              autoComplete="phone"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="email"
-              label="Email"
-              required
-              {...register('email', { required: true })}
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              required
-              {...register('password', { required: true })}
-              label="Senha"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-          </div>
-          <div>
-            {businessUserType && (
-              <section id="business-specific-fields">
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="type"
-                  label="Tipo de negócio"
-                  required
-                  {...register('type', { required: true })}
-                  autoComplete="type"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="address"
-                  label="Endereço"
-                  required
-                  {...register('address', { required: true })}
-                  autoComplete="address"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="description"
-                  label="Descrição"
-                  {...register('description', {
-                    maxLength: 10,
-                  })}
-                  autoComplete="description"
-                  autoFocus
-                  multiline
-                  rows="8"
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="whatsapp"
-                  label="WhatsApp"
-                  {...register('whatsapp')}
-                  autoComplete="whatsapp"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="instagram"
-                  label="Instagram"
-                  {...register('instagram')}
-                  autoComplete="instagram"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="facebook"
-                  label="Facebook"
-                  {...register('facebook')}
-                  autoComplete="facebook"
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="twitter"
-                  label="Twitter"
-                  {...register('twitter')}
-                  autoComplete="twitter"
-                  autoFocus
-                />
-              </section>
-            )}
-          </div>
+          {errors.userType && <p>{errors.userType.message}</p>}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="name"
+            label={businessUserType ? 'Nome do negócio' : 'Nome completo'}
+            required
+            {...register('name', { required: true })}
+            autoComplete="name"
+            autoFocus
+          />
+          {errors.name && <p>{errors.name.message}</p>}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="userName"
+            label="Nome de usuário"
+            required
+            {...register('userName', { required: true })}
+            autoComplete="userName"
+            autoFocus
+          />
+          {errors.userName && <p>{errors.userName.message}</p>}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="phone"
+            label="Celular"
+            required
+            {...register('phone', { required: true })}
+            autoComplete="phone"
+            autoFocus
+          />
+          {errors.phone && <p>{errors.phone.message}</p>}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            id="email"
+            label="Email"
+            required
+            {...register('email', { required: true })}
+            autoComplete="email"
+            autoFocus
+          />
+          {errors.email && <p>{errors.email.message}</p>}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            required
+            {...register('password', { required: true })}
+            label="Senha"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          {errors.password && <p>{errors.password.message}</p>}
+          {businessUserType && (
+            <section id="business-specific-fields">
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="type"
+                label="Tipo de negócio"
+                required
+                {...register('type', { required: true })}
+                autoComplete="type"
+                autoFocus
+              />
+              {errors.type && <p>{errors.type.message}</p>}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="address"
+                label="Endereço"
+                required
+                {...register('address', { required: true })}
+                autoComplete="address"
+                autoFocus
+              />
+              {errors.address && <p>{errors.address.message}</p>}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="description"
+                label="Descrição"
+                {...register('description', {
+                  maxLength: 10,
+                })}
+                autoComplete="description"
+                autoFocus
+                multiline
+                rows="8"
+              />
+              {errors.description && <p>{errors.description.message}</p>}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="whatsapp"
+                label="WhatsApp"
+                {...register('whatsapp')}
+                autoComplete="whatsapp"
+                autoFocus
+              />
+              {errors.whatsapp && <p>{errors.whatsapp.message}</p>}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="instagram"
+                label="Instagram"
+                {...register('instagram')}
+                autoComplete="instagram"
+                autoFocus
+              />
+              {errors.instagram && <p>{errors.instagram.message}</p>}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="facebook"
+                label="Facebook"
+                {...register('facebook')}
+                autoComplete="facebook"
+                autoFocus
+              />
+              {errors.facebook && <p>{errors.facebook.message}</p>}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="twitter"
+                label="Twitter"
+                {...register('twitter')}
+                autoComplete="twitter"
+                autoFocus
+              />
+              {errors.twitter && <p>{errors.twitter.message}</p>}
+            </section>
+          )}
 
           <Button
             type="submit"

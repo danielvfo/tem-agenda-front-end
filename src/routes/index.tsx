@@ -7,7 +7,6 @@ import SignOut from '../components/SignOut';
 import UserDashboard from '../pages/Dashboard/UserDashboard';
 import BusinessDashboard from '../pages/Dashboard/BusinessDashboard';
 import BusinessProfile from '../pages/Profile/BusinessProfile';
-import SimpleH1 from '../pages/Profile/SimpleH1';
 
 const Routes: React.FC = () => {
   return (
@@ -22,7 +21,6 @@ const Routes: React.FC = () => {
         isPrivate
       />
       <Route path="/business-profile" component={BusinessProfile} isPrivate />
-      <Route path="/simple" component={SimpleH1} />
     </Switch>
   );
 };
