@@ -1,19 +1,23 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { mainListItems, secondaryListItems } from './ListItems';
+import UserProfile from '../pages/Profile/UserProfile';
 
 const drawerWidth = 240;
 
@@ -109,11 +113,10 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const fixedHeightPaper = clsx(classes.paper);
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar
         position="absolute"
         className={clsx(classes.appBar, open && classes.appBarShift)}
@@ -141,7 +144,9 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
             Dashboard
           </Typography>
           <IconButton color="inherit">
-            <AccountCircle />
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -158,6 +163,9 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
           </IconButton>
         </div>
         <Divider />
+        <List>{mainListItems}</List>
+        <Divider />
+        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -165,8 +173,15 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper} />
-              <h1>{userType}</h1>
+              <Paper className={fixedHeightPaper}>{userType}</Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>{userType}</Paper>
+            </Grid>
+            {/* Recent Orders */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>{userType}</Paper>
             </Grid>
           </Grid>
         </Container>

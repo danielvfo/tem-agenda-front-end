@@ -69,7 +69,6 @@ const SignUp: React.FC = () => {
           <Typography component="h1" variant="h3">
             Cadastro
           </Typography>
-
           <div>
             <TextField
               variant="outlined"
@@ -128,7 +127,6 @@ const SignUp: React.FC = () => {
               autoComplete="current-password"
             />
           </div>
-
           <Button
             type="submit"
             fullWidth
