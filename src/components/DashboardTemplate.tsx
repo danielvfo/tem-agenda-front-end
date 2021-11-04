@@ -14,9 +14,8 @@ import Paper from '@material-ui/core/Paper';
 import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import { mainListItems, secondaryListItems } from './ListItems';
+import { userMenu, businessMenu } from './ListItems';
 import UserProfile from '../pages/Profile/UserProfile';
 
 const drawerWidth = 240;
@@ -106,7 +105,7 @@ interface DashBoardProps {
 
 const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -145,7 +144,7 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
+              <AccountCircle />
             </Badge>
           </IconButton>
         </Toolbar>
@@ -163,9 +162,9 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <List>{userMenu}</List>
         <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{businessMenu}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
