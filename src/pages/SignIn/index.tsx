@@ -41,12 +41,7 @@ const SignIn: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.userType === 'user') {
-        history.push({ pathname: '/user-dashboard' });
-      }
-      if (user.userType === 'business') {
-        history.push({ pathname: '/business-dashboard' });
-      }
+      history.push({ pathname: '/dashboard' });
     }
   });
 

@@ -17,6 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import { userMenu, businessMenu } from './ListItems';
 import UserProfile from '../pages/Profile/UserProfile';
+import { useAuth } from '../hooks/AuthContext';
 
 const drawerWidth = 240;
 
@@ -99,11 +100,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface DashBoardProps {
-  userType: string;
-}
-
-const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
+const DashboardTemplate: React.FC = () => {
+  const { user } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -113,6 +111,8 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper);
+
+  console.log(user);
 
   return (
     <div className={classes.root}>
@@ -162,9 +162,7 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
           </IconButton>
         </div>
         <Divider />
-        <List>{userMenu}</List>
-        <Divider />
-        <List>{businessMenu}</List>
+        <List>{user.userType === 'business' ? businessMenu : userMenu}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -172,15 +170,15 @@ const DashboardTemplate: React.FC<DashBoardProps> = ({ userType }) => {
           <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{userType}</Paper>
+              <Paper className={fixedHeightPaper}>{user.userType}</Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>{userType}</Paper>
+              <Paper className={fixedHeightPaper}>{user.userType}</Paper>
             </Grid>
             {/* Recent Orders */}
             <Grid item xs={12}>
-              <Paper className={classes.paper}>{userType}</Paper>
+              <Paper className={classes.paper}>{user.userType}</Paper>
             </Grid>
           </Grid>
         </Container>
