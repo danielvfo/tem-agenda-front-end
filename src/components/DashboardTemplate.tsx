@@ -11,10 +11,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { userMenu, businessMenu } from './ListItems';
 import UserProfile from '../pages/Profile/UserProfile';
 import { useAuth } from '../hooks/AuthContext';
@@ -101,18 +101,20 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const DashboardTemplate: React.FC = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleSignOut = () => {
+    signOut();
+  };
   const fixedHeightPaper = clsx(classes.paper);
-
-  console.log(user);
 
   return (
     <div className={classes.root}>
@@ -143,9 +145,10 @@ const DashboardTemplate: React.FC = () => {
             Dashboard
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <AccountCircle />
-            </Badge>
+            <AccountCircle />
+          </IconButton>
+          <IconButton color="inherit" onClick={handleSignOut}>
+            <ExitToAppIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
