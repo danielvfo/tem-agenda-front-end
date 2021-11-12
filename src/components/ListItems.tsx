@@ -6,42 +6,52 @@ import PersonIcon from '@material-ui/icons/Person';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
-export const userMenu = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <PersonIcon />
-      </ListItemIcon>
-      <ListItemText primary="Perfil" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <EventAvailableIcon />
-      </ListItemIcon>
-      <ListItemText primary="Meus Compromissos" />
-    </ListItem>
-  </div>
-);
+type MenuProps = {
+  openProfile: () => void;
+};
 
-export const businessMenu = (
-  <div>
-    <ListItem button>
-      <ListItemIcon>
-        <PersonIcon />
-      </ListItemIcon>
-      <ListItemText primary="Perfil" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <EventAvailableIcon />
-      </ListItemIcon>
-      <ListItemText primary="Meus Compromissos" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DateRangeIcon />
-      </ListItemIcon>
-      <ListItemText primary="Agenda" />
-    </ListItem>
-  </div>
-);
+export const UserMenu: React.FC<MenuProps> = ({ openProfile }: MenuProps) => {
+  return (
+    <div>
+      <ListItem button onClick={openProfile}>
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        <ListItemText primary="Perfil" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <EventAvailableIcon />
+        </ListItemIcon>
+        <ListItemText primary="Meus Compromissos" />
+      </ListItem>
+    </div>
+  );
+};
+
+export const BusinessMenu: React.FC<MenuProps> = ({
+  openProfile,
+}: MenuProps) => {
+  return (
+    <div>
+      <ListItem button onClick={openProfile}>
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        <ListItemText primary="Perfil" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <EventAvailableIcon />
+        </ListItemIcon>
+        <ListItemText primary="Meus Compromissos" />
+      </ListItem>
+      <ListItem button>
+        <ListItemIcon>
+          <DateRangeIcon />
+        </ListItemIcon>
+        <ListItemText primary="Agenda" />
+      </ListItem>
+    </div>
+  );
+};

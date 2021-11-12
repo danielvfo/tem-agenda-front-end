@@ -10,14 +10,14 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { userMenu, businessMenu } from './ListItems';
-import UserProfile from '../pages/Profile/UserProfile';
 import { useAuth } from '../hooks/AuthContext';
+import { UserMenu, BusinessMenu } from './ListItems';
+import UserProfile from '../pages/Profile/UserProfile';
+import BusinessProfile from '../pages/Profile/BusinessProfile';
 
 const drawerWidth = 240;
 
@@ -104,6 +104,9 @@ const DashboardTemplate: React.FC = () => {
   const { user, signOut } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [profileOpen, setProfileOpen] = React.useState(false);
+
+  const { userType } = user;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -114,7 +117,10 @@ const DashboardTemplate: React.FC = () => {
   const handleSignOut = () => {
     signOut();
   };
-  const fixedHeightPaper = clsx(classes.paper);
+  const handleProfileOpen = () => {
+    handleDrawerClose();
+    setProfileOpen(true);
+  };
 
   return (
     <div className={classes.root}>
@@ -165,24 +171,20 @@ const DashboardTemplate: React.FC = () => {
           </IconButton>
         </div>
         <Divider />
-        <List>{user.userType === 'business' ? businessMenu : userMenu}</List>
+        <List>
+          {userType === 'business' ? (
+            <BusinessMenu openProfile={handleProfileOpen} />
+          ) : (
+            <UserMenu openProfile={handleProfileOpen} />
+          )}
+        </List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>{user.userType}</Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>{user.userType}</Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>{user.userType}</Paper>
-            </Grid>
+            {profileOpen && userType === 'user' && <UserProfile />}
+            {profileOpen && userType === 'business' && <BusinessProfile />}
           </Grid>
         </Container>
       </main>
