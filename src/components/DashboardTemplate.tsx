@@ -16,8 +16,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useAuth } from '../hooks/AuthContext';
 import { UserMenu, BusinessMenu } from './ListItems';
-import UserProfile from '../pages/Profile/UserProfile';
-import BusinessProfile from '../pages/Profile/BusinessProfile';
 
 const drawerWidth = 240;
 
@@ -100,11 +98,10 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const DashboardTemplate: React.FC = () => {
+const DashboardTemplate: React.FC = ({ children }) => {
   const { user, signOut } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [profileOpen, setProfileOpen] = React.useState(false);
 
   const { userType } = user;
 
@@ -119,7 +116,6 @@ const DashboardTemplate: React.FC = () => {
   };
   const handleProfileOpen = () => {
     handleDrawerClose();
-    setProfileOpen(true);
   };
 
   return (
@@ -183,8 +179,7 @@ const DashboardTemplate: React.FC = () => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {profileOpen && userType === 'user' && <UserProfile />}
-            {profileOpen && userType === 'business' && <BusinessProfile />}
+            {children}
           </Grid>
         </Container>
       </main>

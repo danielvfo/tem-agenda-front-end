@@ -4,7 +4,7 @@ import Route from './Route';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import DashboardTemplate from '../components/DashboardTemplate';
-import BusinessProfile from '../pages/Profile/BusinessProfile';
+import UserProfile from '../pages/Profile/UserProfile';
 
 const Routes: React.FC = () => {
   return (
@@ -12,7 +12,9 @@ const Routes: React.FC = () => {
       <Route path="/" exact component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/dashboard" component={DashboardTemplate} isPrivate />
-      <Route path="/business-profile" component={BusinessProfile} isPrivate />
+      <DashboardTemplate>
+        <Route path="/user-profile" component={UserProfile} isPrivate />
+      </DashboardTemplate>
     </Switch>
   );
 };

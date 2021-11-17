@@ -5,6 +5,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import PersonIcon from '@material-ui/icons/Person';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DateRangeIcon from '@material-ui/icons/DateRange';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link } from '@material-ui/core';
 
 type MenuProps = {
   openProfile: () => void;
@@ -13,7 +15,12 @@ type MenuProps = {
 export const UserMenu: React.FC<MenuProps> = ({ openProfile }: MenuProps) => {
   return (
     <div>
-      <ListItem button onClick={openProfile}>
+      <ListItem
+        button
+        onClick={openProfile}
+        component={RouterLink}
+        to="/user-profile"
+      >
         <ListItemIcon>
           <PersonIcon />
         </ListItemIcon>
