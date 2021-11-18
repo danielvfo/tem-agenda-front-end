@@ -6,18 +6,17 @@ import PersonIcon from '@material-ui/icons/Person';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import { Link as RouterLink } from 'react-router-dom';
-import { Link } from '@material-ui/core';
 
 type MenuProps = {
-  openProfile: () => void;
+  closeDrawer: () => void;
 };
 
-export const UserMenu: React.FC<MenuProps> = ({ openProfile }: MenuProps) => {
+export const UserMenu: React.FC<MenuProps> = ({ closeDrawer }: MenuProps) => {
   return (
     <div>
       <ListItem
         button
-        onClick={openProfile}
+        onClick={closeDrawer}
         component={RouterLink}
         to="/user-profile"
       >
@@ -37,11 +36,16 @@ export const UserMenu: React.FC<MenuProps> = ({ openProfile }: MenuProps) => {
 };
 
 export const BusinessMenu: React.FC<MenuProps> = ({
-  openProfile,
+  closeDrawer,
 }: MenuProps) => {
   return (
     <div>
-      <ListItem button onClick={openProfile}>
+      <ListItem
+        button
+        onClick={closeDrawer}
+        component={RouterLink}
+        to="/business-profile"
+      >
         <ListItemIcon>
           <PersonIcon />
         </ListItemIcon>

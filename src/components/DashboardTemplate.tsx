@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -14,6 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/AuthContext';
 import { UserMenu, BusinessMenu } from './ListItems';
 
@@ -102,8 +103,13 @@ const DashboardTemplate: React.FC = ({ children }) => {
   const { user, signOut } = useAuth();
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const history = useHistory();
 
-  const { userType } = user;
+  useEffect(() => {
+    if (!user) {
+      history.push({ pathname: '/' });
+    }
+  }, [user, history]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -113,9 +119,7 @@ const DashboardTemplate: React.FC = ({ children }) => {
   };
   const handleSignOut = () => {
     signOut();
-  };
-  const handleProfileOpen = () => {
-    handleDrawerClose();
+    history.push({ pathname: '/' });
   };
 
   return (
@@ -168,10 +172,10 @@ const DashboardTemplate: React.FC = ({ children }) => {
         </div>
         <Divider />
         <List>
-          {userType === 'business' ? (
-            <BusinessMenu openProfile={handleProfileOpen} />
+          {user?.userType === 'business' ? (
+            <BusinessMenu closeDrawer={() => setOpen(false)} />
           ) : (
-            <UserMenu openProfile={handleProfileOpen} />
+            <UserMenu closeDrawer={() => setOpen(false)} />
           )}
         </List>
       </Drawer>

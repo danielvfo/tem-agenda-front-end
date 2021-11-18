@@ -5,6 +5,7 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import DashboardTemplate from '../components/DashboardTemplate';
 import UserProfile from '../pages/Profile/UserProfile';
+import BusinessProfile from '../pages/Profile/BusinessProfile';
 
 const Routes: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const Routes: React.FC = () => {
       <Route path="/dashboard" component={DashboardTemplate} isPrivate />
       <DashboardTemplate>
         <Route path="/user-profile" component={UserProfile} isPrivate />
+        <Route path="/business-profile" component={BusinessProfile} isPrivate />
       </DashboardTemplate>
     </Switch>
   );
