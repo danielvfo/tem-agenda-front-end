@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   TextField,
@@ -40,18 +40,7 @@ const SignUp: React.FC = () => {
 
   const { mutate } = useMutation(
     (data: Inputs) => {
-      console.log(data.userType);
-
-      if (data.userType === 'user') {
-        return api.post('/user', {
-          name: data.name,
-          userName: data.userName,
-          email: data.email,
-          password: data.password,
-          phone: data.phone,
-        });
-      }
-      return api.post('/business', {
+      return api.post('/user', {
         name: data.name,
         userName: data.userName,
         email: data.email,

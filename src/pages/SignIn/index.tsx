@@ -12,7 +12,7 @@ import {
   Container,
 } from '@material-ui/core';
 import { useForm, Controller } from 'react-hook-form';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
 
 type Inputs = {
@@ -37,11 +37,11 @@ const SignIn: React.FC = () => {
   const classes = useStyles();
   const { register, handleSubmit, control } = useForm<Inputs>();
   const { signIn, user } = useAuth();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      history.push({ pathname: '/dashboard' });
+      navigate('/dashboard');
     }
   });
 
