@@ -2,12 +2,12 @@ import React from 'react';
 import {
   Button,
   TextField,
-  makeStyles,
   Typography,
   Container,
   Grid,
   Link,
-} from '@material-ui/core';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { Link as RouterLink } from 'react-router-dom';

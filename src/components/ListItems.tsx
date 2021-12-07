@@ -1,10 +1,10 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import PersonIcon from '@material-ui/icons/Person';
-import EventAvailableIcon from '@material-ui/icons/EventAvailable';
-import DateRangeIcon from '@material-ui/icons/DateRange';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import PersonIcon from '@mui/icons-material/Person';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import DateRangeIcon from '@mui/icons-material/DateRange';
 import { Link as RouterLink } from 'react-router-dom';
 
 type MenuProps = {

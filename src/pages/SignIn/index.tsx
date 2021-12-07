@@ -6,11 +6,11 @@ import {
   FormControlLabel,
   Link,
   Grid,
-  makeStyles,
   Typography,
   Radio,
   Container,
-} from '@material-ui/core';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { useForm, Controller } from 'react-hook-form';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthContext';
