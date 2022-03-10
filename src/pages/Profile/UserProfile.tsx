@@ -1,25 +1,21 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import {
-  Button,
-  TextField,
-  Typography,
-  Container,
-  Grid,
-  Link,
-} from '@mui/material';
+import { Button, TextField, Typography, Container } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
-import { useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
-import { Link as RouterLink } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { useMutation, useQuery } from 'react-query';
 import api from '../../services/api';
 
-type Inputs = {
-  userType: string;
-  name: string;
-  userName: string;
-  phone: string;
-  email: string;
-  password: string;
+type User = {
+  avatar: 'string';
+  createdAt: 'string';
+  email: 'string';
+  id: 'string';
+  name: 'string';
+  phone: 'string';
+  updatedAt: 'string';
+  userName: 'string';
+  user_avatar_url: 'string';
 };
 
 const useStyles = makeStyles(theme => ({
@@ -34,19 +30,38 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignUp: React.FC = () => {
+const UserProfile: React.FC = () => {
   const classes = useStyles();
-  const { register, handleSubmit } = useForm<Inputs>();
+  const token = localStorage.getItem('@App:TemAgenda:token');
+  const { handleSubmit, control, reset } = useForm<User>();
+
+  useQuery(
+    [token && 'userProfileData'],
+    async () => {
+      const response = await api.get<User>('/user/profile', {
+        headers: { Authorization: `token ${token}` },
+      });
+      return response;
+    },
+    {
+      onSuccess: response => reset(response.data),
+    },
+  );
 
   const { mutate } = useMutation(
-    (data: Inputs) => {
-      return api.post('/user', {
-        name: data.name,
-        userName: data.userName,
-        email: data.email,
-        password: data.password,
-        phone: data.phone,
-      });
+    (data: User) => {
+      return api.put(
+        '/user/profile',
+        {
+          name: data.name,
+          userName: data.userName,
+          email: data.email,
+          phone: data.phone,
+        },
+        {
+          headers: { Authorization: `token ${token}` },
+        },
+      );
     },
     { onSuccess: response => console.log(response) },
   );
@@ -56,64 +71,76 @@ const SignUp: React.FC = () => {
       <form onSubmit={handleSubmit(data => mutate(data))}>
         <div className={classes.paper}>
           <Typography component="h1" variant="h3">
-            Cadastro
+            Meus Dados
           </Typography>
           <div>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="name"
-              label="Nome completo"
-              required
-              {...register('name', { required: true })}
-              autoComplete="name"
-              autoFocus
+            <Controller
+              name="name"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  fullWidth
+                  label="Nome completo"
+                  autoComplete="name"
+                  type="text"
+                  value={value || ''}
+                  onChange={onChange}
+                />
+              )}
             />
-
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="userName"
-              label="Nome de usuário"
-              required
-              {...register('userName', { required: true })}
-              autoComplete="userName"
-              autoFocus
+            <Controller
+              name="userName"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  fullWidth
+                  label="Nome de usuário"
+                  autoComplete="userName"
+                  type="text"
+                  value={value || ''}
+                  onChange={onChange}
+                />
+              )}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="phone"
-              label="Celular"
-              required
-              {...register('phone', { required: true })}
-              autoComplete="phone"
-              autoFocus
+            <Controller
+              name="phone"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  fullWidth
+                  label="Celular"
+                  autoComplete="phone"
+                  type="text"
+                  value={value || ''}
+                  onChange={onChange}
+                />
+              )}
             />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="email"
-              label="Email"
-              required
-              {...register('email', { required: true })}
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              required
-              {...register('password', { required: true })}
-              label="Senha"
-              type="password"
-              id="password"
-              autoComplete="current-password"
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { value, onChange } }) => (
+                <TextField
+                  variant="filled"
+                  margin="normal"
+                  fullWidth
+                  label="Email"
+                  autoComplete="email"
+                  type="text"
+                  value={value || ''}
+                  onChange={onChange}
+                />
+              )}
             />
           </div>
           <Button
@@ -123,19 +150,12 @@ const SignUp: React.FC = () => {
             color="primary"
             className={classes.submit}
           >
-            Criar conta
+            Atualizar meus dados
           </Button>
-          <Grid container>
-            <Grid item>
-              <Link component={RouterLink} to="/">
-                Já tem uma conta? Faça o login.
-              </Link>
-            </Grid>
-          </Grid>
         </div>
       </form>
     </Container>
   );
 };
 
-export default SignUp;
+export default UserProfile;
