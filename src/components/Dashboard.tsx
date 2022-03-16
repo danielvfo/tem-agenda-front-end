@@ -14,7 +14,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { UserMenu, BusinessMenu } from './ListItems';
@@ -123,7 +123,16 @@ const Dashboard: React.FC = ({ children }) => {
             >
               Dashboard
             </Typography>
-            <IconButton color="inherit" size="large">
+            <IconButton
+              color="inherit"
+              size="large"
+              component={RouterLink}
+              to={
+                user?.userType === 'business'
+                  ? '/business-profile'
+                  : '/user-profile'
+              }
+            >
               <AccountCircle />
             </IconButton>
             <IconButton color="inherit" onClick={handleSignOut} size="large">
