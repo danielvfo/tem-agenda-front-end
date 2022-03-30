@@ -7,15 +7,15 @@ import { useMutation, useQuery } from 'react-query';
 import api from '../../services/api';
 
 type User = {
-  avatar: 'string';
-  createdAt: 'string';
-  email: 'string';
-  id: 'string';
-  name: 'string';
-  phone: 'string';
-  updatedAt: 'string';
-  userName: 'string';
-  user_avatar_url: 'string';
+  avatar: string;
+  createdAt: string;
+  email: string;
+  id: string;
+  name: string;
+  phone: string;
+  updatedAt: string;
+  userName: string;
+  user_avatar_url: string;
 };
 
 const useStyles = makeStyles(theme => ({
