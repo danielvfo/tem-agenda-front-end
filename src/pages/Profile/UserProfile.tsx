@@ -1,6 +1,12 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { Button, TextField, Typography, Container } from '@mui/material';
+import React, { useState } from 'react';
+import {
+  Button,
+  TextField,
+  Typography,
+  Container,
+  Avatar,
+} from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -33,6 +39,7 @@ const useStyles = makeStyles(theme => ({
 const UserProfile: React.FC = () => {
   const classes = useStyles();
   const token = localStorage.getItem('@App:TemAgenda:token');
+  const [userData, setUserData] = useState<User>();
   const { handleSubmit, control, reset } = useForm<User>();
 
   useQuery(
@@ -44,7 +51,10 @@ const UserProfile: React.FC = () => {
       return response;
     },
     {
-      onSuccess: response => reset(response.data),
+      onSuccess: response => {
+        reset(response.data);
+        setUserData(response.data);
+      },
     },
   );
 
@@ -70,6 +80,13 @@ const UserProfile: React.FC = () => {
     <Container component="main" maxWidth="xs">
       <form onSubmit={handleSubmit(data => mutate(data))}>
         <div className={classes.paper}>
+          <div>
+            <Avatar
+              alt={userData?.name}
+              src={userData?.avatar}
+              sx={{ width: 70, height: 70 }}
+            />
+          </div>
           <Typography component="h1" variant="h3">
             Meus Dados
           </Typography>
